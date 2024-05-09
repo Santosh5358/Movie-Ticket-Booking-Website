@@ -1,0 +1,135 @@
+<app-nav-bar></app-nav-bar>
+<!-- input take -->
+<div class="body" style="padding-bottom: 20px;">
+  <div class="container container-height" >
+    <div class="row" style="margin-top: 10px; padding-top: 40px; padding-left: 310px">
+        <div class="col-md-10" style="width: 60%;">
+            <input type="text" class="form-control" placeholder="Enter Your Reference No" #input style="background-color: transparent;color: white;">;
+        </div>
+        <div class="col-md-2">
+            <button (click)="searchUser(input)" class="btn btn-outline-primary my-2 my-sm-0" style="color:rgb(236, 236, 236); ">Search</button>
+        </div>
+    </div>
+  </div>
+  
+    <div class="card-title" *ngIf="!status" style="height: 543px;">
+      <div class="card" style="padding-top: 100px; border: none; background-color: transparent;
+      color: white;">
+          <h3 style="margin: 0 auto; text-align: center; background-color: transparent;">Enter Your Reference No! <br>To Show Tickets Details</h3>
+      </div>
+    </div>
+    <!-- print data  -->
+     <div class="container mt-4" *ngIf="foundUser.length!==0"  style="display: grid; grid-template-columns: auto auto; column-gap: 35px; row-gap: 10px; justify-content: center;">
+      <div class="row" *ngFor="let booket of foundUser; index as i " >
+        <div class="col" style="margin: 10px; box-shadow: 2px 1px 3px 1px; border-radius: 8px;" >
+          <div class="card" style="border: none; box-shadow: 2px 2px 14px 1px lightsalmon">
+            <h5 class="card-title" style="text-align: center;">Booking Details</h5>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <img src="{{booket.imgsrc}}" width="250px" style="border-radius: 10px;" alt="Product Image">
+                </div>
+                <div class="col-md-6 card-body">
+                  <p class="card-text" style="text-align: center;">
+                    <!-- <strong>ID :</strong> {{ booket. }} -->
+                    <br>
+                    <strong>Selected Movie:</strong> {{ booket.selectedMovie }}
+                    <br>
+                    <strong>Total Number of Tickets:</strong> {{ booket.numberOfPassengers }}
+                    <br>
+                    <strong>Total Ticket Price:</strong> {{ booket.amount }}
+                  </p>
+                </div>
+              </div>
+              <hr>
+              <h6 class="card-subtitle mb-2 text-muted">Members Details:</h6>
+              <div style="display: grid; grid-template-columns: auto auto; column-gap: 8px; justify-content: center;">
+  
+                  <div *ngFor="let det of booket.passengers index as i">
+                    <div class="card mb-2">
+                      <button type="button" class="btn-close" aria-label="Close" (click)="cancleTicketUser(det._id,booket._id,booket.passengers.length)" *ngIf="cancle"></button>
+                      <div class="card-body" style="border: none;">
+                        <h6 class="card-title">{{ det.name }}</h6>
+                        <p class="card-text">
+                          <strong>Email:</strong> {{ det.email }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              
+          <button type="submit" class="btn btn-outline-danger my-2 my-sm-0" style="margin: 14px auto; display: flex; align-items: center; justify-content: center;" (click)="change()" *ngIf="!cancle">Cancle Tickets</button>
+          <button type="submit" class="btn btn-outline-danger my-2 my-sm-0" style="margin: 14px auto; display: flex; align-items: center; justify-content: center;" (click)="cancleTicket(booket._id)" *ngIf="cancle">Cancle All Tickets</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div> 
+  
+  <!-- <div *ngIf="">
+    m? 
+  </div> -->
+
+
+
+
+//extra line 
+<div class="container mt-4" *ngIf="input.value==='showdb'" style="display: grid; grid-template-columns: auto auto; column-gap: 35px; row-gap: 10px; justify-content: center; opacity: 0.8;">
+  <div *ngIf="formData.length===0">
+    <div class="container">
+      <div class="row">
+        <div class="card">
+          <div class="card-body">
+            <h3>No Data Found!</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="formData.length!==0">
+    <div class="row" *ngFor="let booket of formData; " >
+      <div class="col" style="margin: 10px; box-shadow: 2px 1px 3px 1px; border-radius: 8px;" >
+         <div class="card" style="border: none; box-shadow: 2px 2px 14px 1px lightsalmon">
+           <h5 class="card-title" style="text-align: center;">Booking Details</h5>
+           <div class="card-body">
+             <div class="row">
+               <div class="col-md-6">
+                 <img src="{{booket.imgsrc}}" width="250px" style="border-radius: 10px;" alt="Product Image">
+               </div>
+               <div class="col-md-6 card-body">
+                 <strong>ID :</strong> {{ booket._id }}
+                 <br>
+                 <p class="card-text" style="text-align: center;">
+                   <strong>Selected Movie:</strong> {{ booket.selectedMovie }}
+                   <br>
+                   <strong>Total Number of Tickets:</strong> {{ booket.numberOfPassengers }}
+                   <br>
+                   <strong>Total Ticket Price:</strong> {{ booket.amount }}
+                 </p>
+               </div>
+             </div>
+             <hr>
+             <h6 class="card-subtitle mb-2 text-muted">Members Details:</h6>
+             <div style="display: grid; grid-template-columns: auto auto; column-gap: 8px; justify-content: center;">
+   
+                 <div *ngFor="let det of booket.passengers index as i">
+                   
+                   <div class="card mb-2" >
+                     <!-- <button type="button" class="btn-close" aria-label="Close" (click)="cancleTicketUser(det._id,booket._id,booket.passengers.length)" *ngIf="cancle"></button> -->
+                     <div class="card-body" style="border: none;">
+                       <h6 class="card-title">{{ det.name }}</h6>
+                       <p class="card-text">
+                         <strong>Email:</strong> {{ det.email }}
+                       </p>
+                     </div>
+                   </div>
+                 </div>
+             </div>
+             <!-- <button type="submit" class="btn btn-primary btn-block" style="margin: 14px auto; display: flex; align-items: center; justify-content: center;" (click)="change()" *ngIf="!cancle">Cancle Tickets</button> -->
+           </div>
+         </div>
+       </div>
+     </div>
+  </div> 
+ </div> 
+</div>

@@ -1,0 +1,23 @@
+    <app-nav-bar></app-nav-bar>
+<div class="container-height container-height1" style="margin-top: -15px;">
+    <div class="container" style="padding-top: 27px;">
+        <h1 class="text-center" style="box-shadow: 1px 1px 5px 1px; border-radius: 4px; margin: 14px auto; padding: 13px; width: 84%; margin-top: 150x; color: white; padding-top: 12px;">Welcome to Movie Ticket Booking</h1>
+        <hr style="box-sizing: inherit; margin: 38px auto; padding: 3px; width: 84%;">
+        <div class="row">
+            <div class="col-md-4 mb-4" *ngFor="let movie of dummyMovies" style="display: flex; align-items: center;justify-content: center;">
+                <div class="card" style="max-width: 200px; box-shadow: 1px 1px 8px 1px darksalmon">
+                    
+                        <a [routerLink]="['ticketBook',movie.name,movie.image]">
+                            <img src="{{ movie.image }}" class="card-img-top" alt="{{ movie.name }}">
+                        </a>
+                        <div class="card-body">
+                            <a [routerLink]="['ticketBook',movie.name,movie.image]" style="text-decoration: none;">
+                                <h5 class="card-title">{{ movie.name }}</h5>
+                            </a>
+                            <p class="card-text">Rating: {{ movie.rating }}/5</p>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

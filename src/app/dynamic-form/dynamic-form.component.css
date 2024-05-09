@@ -1,0 +1,11 @@
+input.ng-invalid.ng-touched{
+    border: 1px solid red;
+}
+.body{
+    height: 90vh;
+    width: 100%;
+    background-image: url('https://www.okynemedialab.com/wp-content/uploads/2019/11/netflix-background-50-Black-1080x608.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-top: -15px;
+}
