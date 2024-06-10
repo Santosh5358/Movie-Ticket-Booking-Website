@@ -8,6 +8,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.cors.CorsConfiguration;
@@ -48,11 +50,15 @@ public class SpringSecurityConfig {
     @Bean
     @CrossOrigin (origins = "http://localhost:4200")
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests().requestMatchers( "/courses/**").authenticated().requestMatchers("/public/**").permitAll()
+        http.csrf().disable().authorizeHttpRequests().requestMatchers("/courses/**").authenticated().requestMatchers("/public/**").permitAll()
                 .and().formLogin().and().httpBasic();
-        http.csrf().disable();
 
 
         return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return NoOpPasswordEncoder.getInstance();
     }
 }

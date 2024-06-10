@@ -7,8 +7,7 @@ import org.hibernate.annotations.Where;
 import java.util.List;
 
 @Entity
-//@SQLDelete(sql = "UPDATE book_app SET deleted = true WHERE id=?")
-//@Where(clause = "deleted=false")
+
 public class BookApp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

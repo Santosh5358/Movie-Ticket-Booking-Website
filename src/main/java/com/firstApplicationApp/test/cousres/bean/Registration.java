@@ -14,6 +14,16 @@ public class Registration {
     private String password;
     private String number;
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    private String role="user";
+
     public Registration(String name, String email, String password, String number) {
         this.name = name;
         this.email = email;

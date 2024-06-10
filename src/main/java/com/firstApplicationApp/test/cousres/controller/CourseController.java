@@ -65,7 +65,7 @@ public class CourseController {
 			return  filtered;
 		}
 		catch(Exception e){
-			throw new Exception(e.getMessage());
+			throw new Exception("Data Base Is not Connected");
 		}
 	}
 
@@ -93,7 +93,7 @@ public class CourseController {
 			}
 			return bookIdByPassengerName;
 		}catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new Exception("Data Base Is not Connected");
 		}
 
 	}
@@ -114,7 +114,7 @@ public class CourseController {
 	//Add data to database
 	@PostMapping ("/courses")
 
-	public void addCourse(@RequestBody BookApp course) {
+	public void addCourse(@RequestBody BookApp course) throws Exception {
 		try {
 			System.out.println("Recive Courses "+course);
 			course.setId(null);
@@ -123,13 +123,13 @@ public class CourseController {
 
 //			return save;
 		}catch(Exception e){
-			e.printStackTrace();
+			throw new Exception("Data Base Is not Connected");
 		}
 	}
 
 //	Add Moive
 	@PostMapping ("/courses/movie")
-	public ResponseEntity<String> addMovie(@RequestBody MovieAdd movieAdd) {
+	public ResponseEntity<String> addMovie(@RequestBody MovieAdd movieAdd) throws Exception {
 		try {
 			System.out.println(movieAdd);
 			movieAdd.setId(null);
@@ -137,7 +137,7 @@ public class CourseController {
 			return ResponseEntity.ok("Movie added successfully");
 		}catch (Exception e){
 //			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding movie");
+			throw new Exception("Data Base Is not Connected");
 		}
 	}
 
@@ -149,10 +149,20 @@ public class CourseController {
 				throw new Exception("No Data Found");
 			return all;
 		}catch (Exception e){
-			throw new Exception(e.getMessage());
+			throw new Exception("Data Base Is not Connected");
 		}
 
 	}
+	
+	@DeleteMapping("/courses/DeleteMovie/{id}")
+	@Transactional
+	public void DeleteMovie(@PathVariable Long id) throws Exception {
+		System.out.println("data recived"+id);
+
+		movieRepository.deleteById(id);
+
+	}
+
 
 	//Update the database
 	@PutMapping ("/courses/{id}")
@@ -198,7 +208,7 @@ public class CourseController {
 			repository.save(bookApp);
 			return "passenger deleted Successfully";
 		}catch (Exception e){
-			throw new Exception(e.getMessage());
+			throw new Exception("Data Base Is not Connected");
 		}
 	}
 
@@ -219,7 +229,7 @@ public class CourseController {
 				throw new Exception("User Not Found");
 			}
 		}catch (Exception e){
-			throw new Exception(e.getMessage());
+			throw new Exception("Data Base Is not Connected");
 		}
 	}
 
@@ -237,23 +247,24 @@ public class CourseController {
 				registrationRepository.save(registration);
 
 
+
 		}catch (Exception e){
-			throw new Exception(e.getMessage());
+			throw new Exception("Data Base Is not Connected");
 		}
 	}
 
 
 
-//	@PostMapping("/courses/movieAdd")
-//	public void addMovie(@RequestParam("myFile") MultipartFile file) throws IOException {
-//		ImageModel img=new ImageModel(file.getOriginalFilename(),file.getContentType(), file.getBytes());
-////		ImageModel.setId(null);
-//		imageRepository.save(img);
-////		ImageModel movie=new ImageModel(file.getName(),file.getContentType(), file.getBytes());
-//
-////		final MovieAddWithImage sav=movieRepositoryWithImage.save(movie);
-////		movieRepositoryWithImage.save(new MovieAddWithImage(name,rating, imageFile.getBytes()));
-////		return ResponseEntity.ok("Movie added successfully!");
-//	}
+	@PostMapping("/courses/movieAdd")
+	public void addMovie(@RequestParam("myFile") MultipartFile file) throws IOException {
+		ImageModel img=new ImageModel(file.getOriginalFilename(),file.getContentType(), file.getBytes());
+//		ImageModel.setId(null);
+		imageRepository.save(img);
+//		ImageModel movie=new ImageModel(file.getName(),file.getContentType(), file.getBytes());
+
+//		final MovieAddWithImage sav=movieRepositoryWithImage.save(movie);
+//		movieRepositoryWithImage.save(new MovieAddWithImage(name,rating, imageFile.getBytes()));
+//		return ResponseEntity.ok("Movie added successfully!");
+	}
 
 }
