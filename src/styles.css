@@ -1,8 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 .container-height1{
-    height: 90vh;
+    min-height: 90vh;
     width: 100%;
     background-image: url('https://www.okynemedialab.com/wp-content/uploads/2019/11/netflix-background-50-Black-1080x608.jpg');
-    background-repeat: no-repeat;
+    background-repeat: repeat-y;
     background-size: cover;
 }

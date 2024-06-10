@@ -1,28 +1,29 @@
 <app-nav-bar></app-nav-bar>
 <!-- take input of ticket no -->
 <div class="body">
-  <div class="z-1 position-absolute p-5 rounded-3 position-absolute top-50 start-50 translate-middle container-height1" *ngIf="noOfticket"  style="margin-top: 30px; ">
+  <div class="z-1 position-absolute p-5 rounded-3 position-absolute top-50 start-50 translate-middle container-height1" *ngIf="noOfticket"  style="margin-top: 30px; display: flex;justify-content: center;align-items: center;">
 
     <div class="container" >
-      <div class="row justify-content-center" style="margin-top: 140px;">
-        <div class="card " style="width: 500px; opacity: 0.7; border-radius: 35px; box-shadow: 2px 2px 14px 1px lightsalmon">
+      <div class="row justify-content-center" >
+        <div class="card " style="width: 500px; border-radius: 35px; background-color: black; color: white;">
           <form [formGroup]="dynamicForm" (ngSubmit)="selected()" class="my-4">
             <div class="form-group " >
               <h3 style="text-align: center; margin: 10px;">How Many Seats?</h3>
               <!-- <label for="numberOfPassengers">Number of Persons:</label> -->
-              <input type="number" id="numberOfPassengers" formControlName="numberOfPassengers" class="form-control" placeholder="Enter the number of persons">
+              <input type="number" id="numberOfPassengers" formControlName="numberOfPassengers" class="form-control" placeholder="Enter the number of Tickets"><br>
             </div>
-            <button type="submit" class="btn btn-primary btn-block " style="margin: 14px auto; display: flex; align-items: center; justify-content: center;">Book Now!</button>
+            <button type="submit" class="btn btn-primary btn-block "  style="margin: 14px auto; display: flex; align-items: center; justify-content: center;">Book Now!</button>
           </form>         
         </div>
       </div>
     </div>
   </div>
+  
   <!-- take detials  -->
   <div class="container" *ngIf="status" >
     <div class="row justify-content-center" style="display: flex; justify-content: center;">
       <div class="col-md" style="margin-top: 140px ; ">
-        <div class="card" style="box-shadow: 2px 2px 14px 1px lightsalmon; opacity: 0.9;  border-radius: 35px;">
+        <div class="card" style="background-color: black;color: white;  border-radius: 35px;">
           <div class="card-body">
             <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()" style="text-align: right;">
               
@@ -32,7 +33,10 @@
                  <select formControlName="numberOfPassengers"  class="form-control" ngModel="{{no}}" style="display: none;">
                   <option  value='{{no}}'>{{ no }}</option>
                 </select>
-                <select formControlName="selectedMovie"  class="form-control" ngModel="{{movie.name}}" style="display: none;">
+                <select formControlName="email"  class="form-control" ngModel="{{mail}}" style="display: none;">
+                  <option  value='{{mail}}'>{{ mail }}</option>
+                </select>
+                <select formControlName="selectedMovie"  class="form-control" ngModel={{movie.name}} style="display: none;">
                   <option  value='{{movie.name}}'>{{ movie.name }}</option>
                 </select>
                 <select formControlName="amount"  class="form-control" ngModel="{{amount}}" style="display: none;">
@@ -42,13 +46,13 @@
                   <option  value='{{movie.img}}'></option>
                 </select>
                   </div>
-                  <p style="text-align: center;">Selected Movie: <strong>{{movie.name}}</strong></p>
+                  <p style="text-align: center; color: white;">Selected Movie: <strong>{{movie.name}}</strong></p>
                 <div class="container text-center">
                   
                   <div formArrayName="passengers" class="row" style="margin-top: 16px; ">
                     <div class="row row-cols-2" style="display:flex;justify-content: center; margin-right: 0px;">
                       <div *ngFor="let passenger of passengers.controls; let i = index" class="mb-3">
-                        <div [formGroupName]="i" style="box-shadow: 1px 2px 2px 2px lightgray; border-radius: 4px;">
+                        <div [formGroupName]="i" style="box-shadow: 1px 2px 10px 2px lightgray; border-radius: 4px;">
                           <div class="row" style="margin: 8px; padding: 10px; ">
                             <h5>Person {{i + 1}} Details</h5>
                             
@@ -71,10 +75,10 @@
                 <p style="text-align: center;">Ticket Price is : <strong>{{amount}}</strong></p>
               </div>
               <div style="display: flex; align-content: center; justify-content: center;">
-                <button type="submit"  class="btn btn-outline-primary my-2 my-sm-0" [disabled]="!dynamicForm.valid" style="margin: 4px;" *ngIf="status">Book Tickets</button>
-                <button type="button" (click)="onReset()" class="btn btn-outline-warning my-2 my-sm-0" style="margin: 4px;" *ngIf="status">Reset</button>
-                <button type="button" (click)="Add()" class="btn btn-outline-success my-2 my-sm-0" style="margin: 4px;" *ngIf="status">Add More</button>
-                <button type="button" (click)="Delete()" class="btn btn-outline-danger my-2 my-sm-0" style="margin: 4px;" *ngIf="status">Delete</button>
+                <button type="submit"  class="btn btn-primary my-2 my-sm-0" [disabled]="!dynamicForm.valid" style="margin: 4px;" *ngIf="status">Book Tickets</button>
+                <button type="button" (click)="onReset()" class="btn btn-primary my-2 my-sm-0" style="margin: 4px;" *ngIf="status">Reset</button>
+                <button type="button" (click)="Add()" class="btn btn-primary my-2 my-sm-0" style="margin: 4px;" *ngIf="status">Add More</button>
+                <button type="button" (click)="Delete()" class="btn btn-danger my-2 my-sm-0" style="margin: 4px;" *ngIf="status">Delete</button>
               </div>
             </form>
           </div>

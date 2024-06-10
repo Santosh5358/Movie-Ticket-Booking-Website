@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const { type } = require('os');
 const app = express();
 const port = 3000;
 app.use(bodyParser.json());
@@ -83,6 +84,7 @@ app.delete('/deleteUser/:id/:name', async (req, res) => {
     console.log(id2,"Id2");
     const updatedDocument =await FormData.findOneAndUpdate(
       { _id: id },
+      {$pull:{}},
       { $pull: { passengers: { _id: id2 } } },
       { new: true }
     );
@@ -97,6 +99,14 @@ app.delete('/deleteUser/:id/:name', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });  
+const userScema=mongoose.Schema({
+  email:{type:String,required:true, unique:true},
+  password:{type:String,required:true}
+})
+
+app.post("/signup",(req,res,next)=>{
+
+});
 
 // Start the server
 app.listen(port, () => {

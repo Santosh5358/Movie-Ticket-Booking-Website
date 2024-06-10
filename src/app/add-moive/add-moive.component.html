@@ -1,0 +1,23 @@
+<!-- movie-form.component.html -->
+<app-nav-bar></app-nav-bar>
+<div class="body" style="padding-bottom: 20px;" >
+<div class="container" style=" margin-top: 10px; padding-top: 40px; padding-left: 20px" style="background-color: black; width: 500px;margin-left: auto;margin-right: auto;margin-top: 3em;margin-bottom: 3em;border-radius: 10px;padding: 1.8rem; box-shadow: 2px 5px 20px rgba(0,0,0,0.1, green, blue, alpha);">
+    <h1 style="color: rgb(183, 98, 98); text-align: center;">Add Movie</h1>
+    <form [formGroup]="movieForm" (ngSubmit)="addMovie()">
+        <div class="form-group" style="margin: 20px;">
+            <label for="movieName" style="color: rgb(255, 255, 255); " >Movie Name</label>
+            <input type="text" id="movieName" class="form-control" formControlName="movieName" required>
+        </div>
+        <div class="form-group" style="margin: 20px;">
+            <label for="imgsrc" style="color: rgb(255, 255, 255);">Movie Image</label>
+            <input type="text" id="imgsrc" formControlName="imgSrc" class="form-control" > //(change)="handleImageUpload($event)"
+            <img [src]="imgURL" height="200" *ngIf="imgURL">
+        </div>
+        <div class="form-group" style="margin: 20px;">
+            <label for="Rating" style="color: rgb(255, 255, 255);">Movie Rating</label>
+            <input type="number" id="rating" class="form-control" formControlName="rating" required >
+        </div>
+        <button type="submit" class="btn btn-danger my-2 my-sm-0" [disabled]="!movieForm.valid" style="margin: 14px auto; display: flex; align-items: center; justify-content: center;" >Add Movie</button>
+    </form>
+</div>
+</div>

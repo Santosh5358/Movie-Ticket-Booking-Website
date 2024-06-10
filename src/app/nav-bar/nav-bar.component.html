@@ -1,21 +1,43 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg" >
+    
     <div class="container-fluid" >
-      <a class="navbar-brand" [routerLink]="['']" style="font-size: large;color: red;"><strong>Movie Booking App</strong></a>
+      <a class="navbar-brand" [routerLink]="['']" style="font-size: 40px;color: red;"><strong>Book<i>With</i>Us</strong></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <span class="navbar-toggler-icon" style="background-color: white;"></span>
+      </button> 
+      <div class="collapse navbar-collapse" id="navbarSupportedContent" >
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" [routerLink]="['']">Home</a>
+          <li class="nav-item" *ngIf="!this.authSerive.isUserLoggedIn()">
+            <a class="nav-link active" aria-current="page" [routerLink]="['']"  style="color: white; font-size: medium;"><b>Home</b></a>
           </li>
+          <li class="nav-item" *ngIf="!this.authSerive.isUserLoggedIn()">
+            <a class="nav-link" [routerLink]="['/login']"  style="color: white; font-size: medium;"><b>Login</b></a>
+          </li>
+          <li class="nav-item" *ngIf="this.authSerive.isUserLoggedIn()">
+            <a class="nav-link" [routerLink]="['/bookcheck']"  style="color: white; font-size: medium;"><b>Show Ticket Details</b></a>
+          </li>
+          <li class="nav-item" *ngIf="this.authSerive.isUserLoggedIn()">
+            <a class="nav-link" type="button" (click)="logout()"  style="color: white; font-size: medium;"><b>Logout</b></a>
+          </li>
+          <li class="nav-item">
+            
+          </li>
+          </ul>
 
-          <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/bookcheck']">Show Ticket Details</a>
-          </li>
-        </ul>
+            <div class="mx-auto" *ngIf="isUserLoggedIn" style="left: 10px;"> 
+              <!-- Add your username here -->
+              <span class="navbar-text" style="color: white; font-size: medium;"><b>Hey</b> &nbsp; <b><i>  {{Uname}}</i></b></span>
+          </div>
+        <!-- <div class="card-box" style="display: flex; justify-content: center; align-content: center;">
+          <p style="padding-top: 10px; color: white;">
+            {{ currentDateTime }}
+          </p>
+        </div> -->
         <form class="d-flex" role="search">
-            <button class="btn btn-outline-danger my-2 my-sm-0" [routerLink]="['']">Book Tickets</button>
+            <button class="btn btn-primary my-2 my-sm-0" [routerLink]="['/addMoive']" style="margin: 4px;" *ngIf="isAdmin">Add Movie</button>
+            <button class="btn btn-danger my-2 my-sm-0" [routerLink]="['']" *ngIf="!isAdmin">Book Tickets</button>
+            <!-- <a class="btn btn-danger my-2 my-sm-0" type="button" (click)="deleteMovie()" *ngIf="isAdmin">Delete Movie </a> -->
+
         </form>
       </div>
     </div>

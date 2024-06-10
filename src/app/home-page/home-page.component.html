@@ -1,18 +1,31 @@
-    <app-nav-bar></app-nav-bar>
+<app-nav-bar></app-nav-bar>
 <div class="container-height container-height1" style="margin-top: -15px;">
-    <div class="container" style="padding-top: 27px;">
-        <h1 class="text-center" style="box-shadow: 1px 1px 5px 1px; border-radius: 4px; margin: 14px auto; padding: 13px; width: 84%; margin-top: 150x; color: white; padding-top: 12px;">Welcome to Movie Ticket Booking</h1>
-        <hr style="box-sizing: inherit; margin: 38px auto; padding: 3px; width: 84%;">
+    
+    
+    <div class="d-flex justify-content-center z-2 position-absolute p-5 rounded-3" *ngIf="loading" style="right: 40%; top: 45%;">
+        <div class="spinner-border" role="status" style="width: 6.5rem; height: 6.5rem; color: rgb(74, 84, 224);">
+          <span class="visually-hidden" >Loading...</span>
+        </div><br><br>
+        <!-- <span style="color:rgb(255, 255, 255) ; text-align: center;">Loading...</span> -->
+      </div>
+      <div class="container" style="padding-top: 27px;">
+        <a class="btn btn-danger my-2 my-sm-0" type="button" (click)="deleteMovie()" *ngIf="isAdmin" style="position: absolute;right: 0;margin: 8px;">Delete Movie </a>
+        <h1 class="text-center" style=" border-radius: 4px; margin: 14px auto; padding: 13px; width: 84%; margin-top: 150x; color: white; padding-top: 12px;">Welcome to <strong>Book<i>With</i>Us</strong></h1>
+        <hr style="box-sizing: inherit; margin: px auto; padding: 3px; width: 84%;">
         <div class="row">
-            <div class="col-md-4 mb-4" *ngFor="let movie of dummyMovies" style="display: flex; align-items: center;justify-content: center;">
-                <div class="card" style="max-width: 200px; box-shadow: 1px 1px 8px 1px darksalmon">
+
+            <div class="col-md-3 mb-4" *ngFor="let movie of moives" style="display: flex; align-items: center;justify-content: center; overscroll-behavior: inherit;" >
+                
+                
+                <div class="card book" style="max-width: 200px;">
+                    <button type="button" class="btn-close z-0  rounded-3" aria-label="Close" (click)="cancleMovie(movie.id)" *ngIf="cancle" style="background-color: rgb(238, 0, 0);"></button>
                     
-                        <a [routerLink]="['ticketBook',movie.name,movie.image]">
-                            <img src="{{ movie.image }}" class="card-img-top" alt="{{ movie.name }}">
+                        <a [routerLink]="['ticketBook',movie.movieName]" (click)="data(movie.movieName,movie.imgSrc)" >
+                            <img src="{{ movie.imgSrc }}" class="card-img-top" alt="{{ movie.movieName }}"  style="width: 100%;padding: 0px; height: 20%; text-decoration: none;">
                         </a>
-                        <div class="card-body">
-                            <a [routerLink]="['ticketBook',movie.name,movie.image]" style="text-decoration: none;">
-                                <h5 class="card-title">{{ movie.name }}</h5>
+                        <div class="card-body" style="border: none;">
+                            <a [routerLink]="['ticketBook',movie.movieName]" style="text-decoration: none;" (click)="data(movie.movieName,movie.imgSrc)" style="text-decoration: none;">
+                                <h5 class="card-title">{{ movie.movieName }}</h5>
                             </a>
                             <p class="card-text">Rating: {{ movie.rating }}/5</p>
                         </div>

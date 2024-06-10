@@ -6,6 +6,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { BookDataService } from '../shared/BookData.service';
 import { FormDataService } from '../formdata.service';
 import { alphabetsOnlyValidator } from './alphabetsOnlyValidator.service';
+import { DataserviceService } from '../dataservice.service';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -13,7 +14,7 @@ import { alphabetsOnlyValidator } from './alphabetsOnlyValidator.service';
   styleUrl: './dynamic-form.component.css'
 })
 export class DynamicFormComponent implements OnInit {
-  movie!: { name: string;img:String }; //fatch the movie name when the user redirect from index to book page
+  movie: { name: string;img:String }={ name: '', img: '' }; //fatch the movie name when the user redirect from index to book page
   dynamicForm!: FormGroup;
   dynamicForm2!:FormGroup;
   status=false;
@@ -23,29 +24,28 @@ export class DynamicFormComponent implements OnInit {
   noOfticket=true;
   amount:number=100;
   no=0 ;
+  mail=''
+  recived!: { name: string;img:String };
 
-  constructor(private fb: FormBuilder,private route:ActivatedRoute,private bookticket:BookDataService,private formDataService: FormDataService,private router:Router) {
-    this.dynamicForm = fb.group({
-      numberOfPassengers:[0,Validators.required],
-      selectedMovie:[''],
-      imgsrc:[''],
-      passengers:this.fb.array([]),
-      amount:[]
-  });
+  constructor(private fb: FormBuilder,private route:ActivatedRoute,private bookticket:BookDataService,private formDataService: FormDataService,private router:Router,private dataService:DataserviceService) {
+      this.dynamicForm = fb.group({
+        numberOfPassengers:['',Validators.required],
+        selectedMovie:[''],
+        imgsrc:[''],
+        email:[this.mail,[Validators.required,Validators.email]],
+        passengers:this.fb.array([]),
+        amount:[]
+    });
+    this.mail=dataService.getEmail();
+    console.log(this.mail+"mail")
+    this.recived=dataService.getData();
+    this.movie.name=this.recived.name;
+    this.movie.img=this.recived.img;
+    
+
   }
   ngOnInit(): void {
-    this.movie={
-      name:this.route.snapshot.params['name'],
-      img:this.route.snapshot.params['img']
-    }
-    this.route.params.subscribe(
-      (params:Params)=>{
-        this.movie.name=params['name'];
-        this.movie.img=params['img'];
-        console.log(this.movie.name);
-        console.log(this.movie.img);
-      }
-    );
+   
     this.isMovieSelected = true;
     this.addPerson();
     this.updatePassengers();
@@ -68,6 +68,8 @@ export class DynamicFormComponent implements OnInit {
 
   updatePassengers(): void {
     const numPassengers = this.no;
+    const email=this.mail;
+    console.log("mail ",email);
     console.log("update ",numPassengers);
     if(numPassengers>0){
       this.status=true;
@@ -87,7 +89,7 @@ export class DynamicFormComponent implements OnInit {
   bookTicket: any[] = [];
   onSubmit():void{
     // console.log(this.no,"no of tickets");
-    // console.log(this.dynamicForm);
+    console.log(this.dynamicForm);
     if (this.dynamicForm.valid) {
       console.log("valided");
       // send data to local
@@ -96,10 +98,7 @@ export class DynamicFormComponent implements OnInit {
       this.formDataService.submitFormData(this.dynamicForm.value)
        .subscribe(
          (response:any) => {
-           const UserId=response.userId;
            alert("Your Ticket Confirmed!");
-           alert("Your Ticket Reference no is:  "+UserId);
-           console.log("userID is",UserId);
            this.dynamicForm.reset();
            this.passengers.clear();
            this.addPerson();
@@ -117,6 +116,7 @@ export class DynamicFormComponent implements OnInit {
        );
       console.log('Form data:', this.dynamicForm.value);
       
+      // console.log("after reset ",this.bookTicket);
       // console.log("after reset ",this.bookTicket);
       
     }
@@ -156,6 +156,8 @@ export class DynamicFormComponent implements OnInit {
     
     // this.amount=100; 
      this.no = this.f['numberOfPassengers'].value;
+    //  this.mail=this.f['email'].value;
+    //  this.f['numberOfPassengers']=this.no;
       if(this.no>0){
         if(this.no>20){
           alert("Limit reached! Please Select less then 21")
