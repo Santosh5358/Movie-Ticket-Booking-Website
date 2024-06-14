@@ -1,8 +1,7 @@
 package com.firstApplicationApp.test.cousres.bean;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import lombok.Getter;
 
 import java.util.List;
 
@@ -15,7 +14,14 @@ public class BookApp {
     private String email;
     private int numberOfPassengers;
     private  String selectedMovie;
-    private String imgsrc;
+    @Getter
+    @Lob
+    @Column(name = "imgsrc", columnDefinition = "LONGBLOB")
+
+    private byte[] imgsrc;
+
+    @Getter
+    private String type;
     private  int amount;
     private boolean deleted;
 
@@ -55,12 +61,13 @@ public class BookApp {
     private List<Passenger> passengers ;
 
 
-    public BookApp(int id, int numberOfPassengers, String selectedMovie, String imgsrc, int amount,String email) {
+    public BookApp(int id, int numberOfPassengers, String selectedMovie, byte[] imgsrc,String type, int amount,String email) {
         super();
         this.bookId = id;
         this.numberOfPassengers = numberOfPassengers;
         this.selectedMovie = selectedMovie;
         this.imgsrc = imgsrc;
+        this.type=type;
         this.amount = amount;
         this.email=email;
 
@@ -74,10 +81,6 @@ public class BookApp {
         return bookId;
     }
 
-
-    public String getImgsrc() {
-        return imgsrc;
-    }
 
     public void setId(Integer id) {
         this.bookId = id;

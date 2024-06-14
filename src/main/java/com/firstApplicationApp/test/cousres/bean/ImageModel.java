@@ -1,10 +1,7 @@
 package com.firstApplicationApp.test.cousres.bean;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @ToString
@@ -13,18 +10,25 @@ import lombok.ToString;
 public class ImageModel {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String type;
+
+    private String movieName;
+
+    private String rating;
     @Lob
+    @Column(name = "pic", columnDefinition = "LONGBLOB")
     private byte[] pic;
 
-    public ImageModel( String name, String type, byte[] pic) {
+    public ImageModel( String name, String type, byte[] pic,String movieName,String rating) {
 
         this.name = name;
         this.type = type;
         this.pic = pic;
+        this.movieName=movieName;
+        this.rating=rating;
     }
 
 

@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface BookRepository extends JpaRepository<BookApp, Long> {
 
-    @Query("SELECT b FROM BookApp b JOIN b.passengers p WHERE p.name = :passengerName")
+    @Query("SELECT b FROM BookApp b JOIN b.passengers p WHERE p.name = :passengerName" )
     List<BookApp> findBookIdByPassengerName(@Param("passengerName") String passengerName);
 
     List<BookApp> findByEmail(String email);

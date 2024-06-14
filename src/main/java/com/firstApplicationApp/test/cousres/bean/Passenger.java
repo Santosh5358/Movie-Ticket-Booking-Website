@@ -22,6 +22,16 @@ public class Passenger {
     private String name ;
     private String email;
 
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    private boolean deleted=false;
+
     public Passenger() {
     }
 

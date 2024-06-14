@@ -27,8 +27,7 @@ public class ControllerTester {
        bookRepository=  Mockito.mock(BookRepository.class);
        courseController = Mockito.mock(CourseController.class);
         List<BookApp> bookings = new ArrayList<>();
-        bookings.add(new BookApp(1,2,"logan","https://th.bing.com/th/id/OIP.KV4AE1Wf1xrKR2xntIl7gAHaEo?w=272&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",200,"avi@gmail.com"));
-//        bookApp.add(bookApp);
+        bookings.add(new BookApp(1,2,"logan", "https://th.bing.com/th/id/OIP.KV4AE1Wf1xrKR2xntIl7gAHaEo?w=272&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7".getBytes(),"image/jpeg",200,"avi@gmail.com"));
         Mockito.when(bookRepository.findAll()).thenReturn(bookings);
         var result = courseController.getAllCourses();
         Assertions.assertTrue(result instanceof Collection<?>);
@@ -40,7 +39,7 @@ public class ControllerTester {
         bookRepository=  Mockito.mock(BookRepository.class);
         courseController = Mockito.mock(CourseController.class);
         List<BookApp> bookings = new ArrayList<>();
-        bookings.add(new BookApp(1,2,"logan","https://th.bing.com/th/id/OIP.KV4AE1Wf1xrKR2xntIl7gAHaEo?w=272&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",200,"avi@gmail.com"));
+        bookings.add(new BookApp(1,2,"logan","https://th.bing.com/th/id/OIP.KV4AE1Wf1xrKR2xntIl7gAHaEo?w=272&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7".getBytes(),"image/jpeg",200,"avi@gmail.com"));
 //        bookApp.add(bookApp);
         Mockito.when(bookRepository.findByEmail("avi@gmail.com")).thenReturn(bookings);
         var result = courseController.getByEmail("avi@gmail.com");
@@ -53,7 +52,7 @@ public class ControllerTester {
         bookRepository=  Mockito.mock(BookRepository.class);
         courseController = Mockito.mock(CourseController.class);
         List<BookApp> bookings = new ArrayList<>();
-        bookings.add(new BookApp(1,2,"logan","https://th.bing.com/th/id/OIP.KV4AE1Wf1xrKR2xntIl7gAHaEo?w=272&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",200,"avi@gmail.com"));
+        bookings.add(new BookApp(1,2,"logan","https://th.bing.com/th/id/OIP.KV4AE1Wf1xrKR2xntIl7gAHaEo?w=272&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7".getBytes(),"image/jpeg",200,"avi@gmail.com"));
         Mockito.when(bookRepository.findByselectedMovie("logan")).thenReturn(bookings);
         var result = courseController.getOneCourses("avi@gmail.com");
         Assertions.assertTrue(result instanceof Collection<?>);
