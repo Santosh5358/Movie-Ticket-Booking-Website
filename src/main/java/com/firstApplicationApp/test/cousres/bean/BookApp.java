@@ -6,7 +6,6 @@ import lombok.Getter;
 import java.util.List;
 
 @Entity
-
 public class BookApp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,6 +69,7 @@ public class BookApp {
         this.type=type;
         this.amount = amount;
         this.email=email;
+
 
     }
 

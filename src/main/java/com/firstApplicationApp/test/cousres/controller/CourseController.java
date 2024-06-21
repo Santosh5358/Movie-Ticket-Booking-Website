@@ -1,6 +1,5 @@
 package com.firstApplicationApp.test.cousres.controller;
 
-//import java.util.*;
 
 import com.firstApplicationApp.test.cousres.bean.*;
 import com.firstApplicationApp.test.cousres.repository.*;
@@ -72,23 +71,9 @@ public class CourseController {
 				passengers.removeIf(p->p.isDeleted());
 			}
 			List<BookApp> filtered = byEmail.stream().filter(book->!book.isDeleted()).collect(Collectors.toList());
-//			List<BookApp> filtered = filtered2.stream()
-//					.filter(book -> !book.getPassengers().get(0).isDeleted())
-//					.collect(Collectors.toList());
-//			List<BookApp> filtered = filtered2.stream()
-//					.filter(bookApp -> bookApp.getPassengers().stream()
-//							.noneMatch(Passenger::isDeleted))
-//					.toList();
-
-//			List<BookApp> filtered = filtered2.stream()
-//					.filter(bookApp -> bookApp.getPassengers().stream()
-//							.noneMatch(passenger -> passenger.isDeleted())).filter(bookApp -> bookApp.getPassengers().)
-//					.collect(Collectors.toList());
-
 			if(filtered.isEmpty()){
 					return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Data Found for email: "+email);
 			}
-
 			return  ResponseEntity.ok(filtered);
 		}
 		catch(Exception e){
@@ -96,31 +81,12 @@ public class CourseController {
 		}
 	}
 
-	//Get API called by id
-//	@GetMapping("/courses/byId/{id}")
-//
-//	public BookApp getOneCourses(@PathVariable long id) {
-//			Optional<BookApp> course= repository.findById(id);
-//			if(course.isEmpty()){
-//				throw  new RuntimeException("Course not found");
-//			}
-//			return repository.getReferenceById(id);
-//
-//	}
-
 	//Get API called by name
 	@GetMapping("/courses/byName/{name}")
 
 	public ResponseEntity<?> getByName(@PathVariable String name) throws Exception {
 
 		try {
-
-//			List<BookApp> bookIdByPassengerName = repository.findAll().stream()
-//					.filter(bookApp -> bookApp.getPassengers().stream()
-//							.noneMatch(Passenger::isDeleted))
-//					.toList();
-
-//			List<BookApp> bookIdByPassengerName = repository.findBookIdByPassengerName(name);
 			List<BookApp> bookIdByPassengerName=repository.findAll().stream().filter(s->s.getPassengers().get(0).getName().toLowerCase().contains(name.toLowerCase())).toList();
 			if (bookIdByPassengerName.isEmpty()){
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Data Found for name: "+name);
@@ -135,7 +101,6 @@ public class CourseController {
 	@GetMapping("/courses/byMovie/{movie}")
 
 	public ResponseEntity<?> getOneCourses(@PathVariable String movie) throws Exception {
-//		List<BookApp> byselectedMovie = repository.findByselectedMovie(movie);
 
 		try {
 			List<BookApp> bySelectedMovie = repository.findAll()
@@ -153,8 +118,6 @@ public class CourseController {
 		}
 
 	}
-
-
 
 	//Add data to database
 	@PostMapping ("/courses")
@@ -192,9 +155,8 @@ public class CourseController {
 			List<ImageModel> all = imageRepository.findAll();
 			if (all.isEmpty()) {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Data Found");
-			}else {
-				return  ResponseEntity.ok(all);
 			}
+			return  ResponseEntity.ok(all);
 		}catch (Exception e){
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Server Not Responding Try Again Later");
 		}
@@ -223,8 +185,6 @@ public class CourseController {
 		System.out.println("data recived"+id);
 
 		try {
-
-
 			imageRepository.deleteById(id);
 			repository.deleteById(id);
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Deleted Data Successfully");
@@ -233,7 +193,6 @@ public class CourseController {
 		}
 
 	}
-
 
 	//Update the database
 	@PutMapping ("/courses/{id}")
@@ -245,15 +204,24 @@ public class CourseController {
 			 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		 }
 	}
-//	public void updateCourse(@PathVariable long id,@RequestBody Course course) {
-//		repository.save(course);
-//	}
+
+@DeleteMapping ("/courses/cancleAdmin/{id}")
+public ResponseEntity<?> deleteCourseAdmin(@PathVariable long id) throws Exception {
+	try {
+		repository.deleteById(id);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Deleted Data");
+	}
+	catch (Exception e){
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+	}
+}
 
 	@DeleteMapping ("/courses/cancle/{id}")
 	public ResponseEntity<?> deleteCourse(@PathVariable long id) throws Exception {
 		try {
 			BookApp bookApp = repository.findById(id).orElseThrow(()-> new Exception("Ticket not found "));
 			bookApp.setDeleted(true);
+			bookApp.getPassengers().forEach(s->s.setDeleted(true));
 			repository.save(bookApp);
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Deleted Data");
 		}
@@ -305,8 +273,6 @@ public class CourseController {
 
 	}
 
-
-
 	@PostMapping ("/public/addUser")
 	public ResponseEntity<?> addUser(@RequestBody Registration registration) throws Exception {
 		try {
@@ -317,6 +283,9 @@ public class CourseController {
 
 			}else {
 				registration.setId(null);
+				if(email.contentEquals("admin@admin.com")){
+					registration.setRole("admin");
+				}
 				String hasPassword=passwordEncoder.encode(registration.getPassword());
 				registration.setPassword(hasPassword);
 				registrationRepository.save(registration);
@@ -328,8 +297,6 @@ public class CourseController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
 	}
-
-
 
 	@PostMapping("/courses/movieAdd/{name}/{rating}")
 	public ResponseEntity<?> addMovie(@RequestParam("myFile") MultipartFile file,@PathVariable String name,@PathVariable String rating) throws IOException {
